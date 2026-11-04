@@ -7,5 +7,11 @@ class Settings(BaseSettings):
 
     database_url: str
 
+    # LLM (local Ollama). Defaults work without touching .env.
+    llm_model: str = "llama3.2"
+    ollama_base_url: str = "http://localhost:11434"
+    llm_timeout_seconds: float = 60
+    llm_max_attempts: int = 2
+
 
 settings = Settings()

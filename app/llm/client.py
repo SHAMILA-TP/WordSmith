@@ -69,12 +69,21 @@ class LLMClient:
             raise LLMError("LLM returned a non-text response")
 
         usage = response.usage_metadata or {}
-        return LLMResult(
+        result = LLMResult(
             text=response.content.strip(),
             input_tokens=usage.get("input_tokens", 0),
             output_tokens=usage.get("output_tokens", 0),
             latency_ms=latency_ms,
         )
+        # Operational data only; never the prompt or the reply text.
+        logger.info(
+            "llm_call model=%s input_tokens=%d output_tokens=%d latency_ms=%d",
+            self.model,
+            result.input_tokens,
+            result.output_tokens,
+            result.latency_ms,
+        )
+        return result
 
 
 @lru_cache(maxsize=1)

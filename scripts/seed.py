@@ -35,7 +35,6 @@ PROPERTY_NAME = "Aurelia Singapore"
 
 def seed() -> None:
     with SessionLocal() as session:
-        # Brand: find by name, create if missing, then sync the fields
         brand = session.scalar(select(Brand).where(Brand.name == BRAND_NAME))
         if brand is None:
             brand = Brand(name=BRAND_NAME)
@@ -43,9 +42,8 @@ def seed() -> None:
         brand.customer_term = "Guest"
         brand.communication_guidelines = BRAND_GUIDELINES
         brand.is_active = True
-        session.flush()  # sends the INSERT now so brand.id is available
+        session.flush()
 
-        # Property: unique per (brand, name)
         prop = session.scalar(
             select(Property).where(
                 Property.brand_id == brand.id, Property.name == PROPERTY_NAME
@@ -55,7 +53,7 @@ def seed() -> None:
             prop = Property(brand_id=brand.id, name=PROPERTY_NAME)
             session.add(prop)
         prop.property_term = "luxury hotel"
-        prop.communication_guidelines = ""  # empty = inherit brand style
+        prop.communication_guidelines = ""
         prop.is_active = True
 
         session.commit()

@@ -13,15 +13,11 @@ from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_ollama import ChatOllama
 
 from app.core.config import settings
+from app.core.errors import LLMError
 
 logger = logging.getLogger(__name__)
 
-# Low temperature: rewriting should be stable, not creative.
 DEFAULT_TEMPERATURE = 0.2
-
-
-class LLMError(Exception):
-    """Any failure talking to the model (down, timeout, unknown model, bad reply)."""
 
 
 @dataclass(frozen=True)
@@ -55,7 +51,6 @@ class LLMClient:
                 [SystemMessage(system_prompt), HumanMessage(user_prompt)]
             )
         except Exception as exc:
-            # Log the error only, never the prompts (they contain guest text).
             logger.warning(
                 "LLM call failed: model=%s error=%s: %s",
                 self.model,
@@ -75,7 +70,6 @@ class LLMClient:
             output_tokens=usage.get("output_tokens", 0),
             latency_ms=latency_ms,
         )
-        # Operational data only; never the prompt or the reply text.
         logger.info(
             "llm_call model=%s input_tokens=%d output_tokens=%d latency_ms=%d",
             self.model,

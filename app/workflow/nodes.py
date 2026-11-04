@@ -3,8 +3,7 @@ from collections.abc import Callable
 from sqlalchemy import select
 from sqlalchemy.orm import joinedload
 
-from app.core.errors import NotFoundError
-from app.llm.client import LLMError
+from app.core.errors import LLMError, NotFoundError
 from app.llm.prompts.rewrite import (
     RewriteContext,
     build_system_prompt,
@@ -20,7 +19,6 @@ Node = Callable[[RewriteState], RewriteState]
 def make_load_context(deps: RewriteDeps) -> Node:
     def load_context(state: RewriteState) -> RewriteState:
         request = state["request"]
-        # One query; the brand_id condition also checks the property belongs to the brand.
         query = (
             select(Property)
             .options(joinedload(Property.brand))

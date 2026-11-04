@@ -31,9 +31,7 @@ class Property(Base):
         ForeignKey("brands.id", ondelete="RESTRICT"), index=True
     )
     name: Mapped[str]
-    # e.g. "luxury hotel"
     property_term: Mapped[str]
-    # Empty string = inherit the brand style only
     communication_guidelines: Mapped[str] = mapped_column(
         Text, server_default=text("''")
     )

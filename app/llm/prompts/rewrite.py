@@ -19,7 +19,7 @@ class RewriteContext:
     property_name: str
     property_term: str
     brand_guidelines: str
-    property_guidelines: str  # empty string = inherit the brand style only
+    property_guidelines: str
 
 
 _SYSTEM_TEMPLATE = """\
@@ -61,7 +61,6 @@ Rewrite the message inside the <draft> tags.
 </draft>\
 """
 
-# Stops a draft from closing the tag early and escaping the data block.
 _DRAFT_TAG = re.compile(r"</?\s*draft\s*>", re.IGNORECASE)
 
 

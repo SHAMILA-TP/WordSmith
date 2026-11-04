@@ -10,6 +10,6 @@ class RewriteState(TypedDict, total=False):
     Each node returns only the keys it changes; LangGraph merges them in.
     """
 
-    request: RewriteRequest  # set at the start
-    context: RewriteContext  # set by load_context
-    text: str  # set by rewrite
+    request: RewriteRequest
+    context: RewriteContext
+    text: str

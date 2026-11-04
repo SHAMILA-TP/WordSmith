@@ -19,7 +19,6 @@ class Brand(Base):
         UUID(as_uuid=True), primary_key=True, server_default=text("gen_random_uuid()")
     )
     name: Mapped[str] = mapped_column(unique=True)
-    # How the brand calls its customers, e.g. "Guest"
     customer_term: Mapped[str]
     communication_guidelines: Mapped[str] = mapped_column(Text)
     is_active: Mapped[bool] = mapped_column(Boolean, server_default=text("true"))

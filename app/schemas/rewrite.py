@@ -9,3 +9,9 @@ class RewriteRequest(BaseModel):
     brand_id: uuid.UUID
     property_id: uuid.UUID
     draft: str = Field(min_length=1)
+
+
+class RewriteResponse(BaseModel):
+    text: str
+    model: str
+    prompt_version: str
